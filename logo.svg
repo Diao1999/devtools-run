@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="50%" style="stop-color:#818cf8"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c4b5fd"/>
+      <stop offset="100%" style="stop-color:#e0e7ff"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="108" fill="#0c0e16"/>
+  
+  <!-- Subtle hex grid pattern -->
+  <polygon points="256,72 400,156 400,324 256,408 112,324 112,156" fill="none" stroke="#6366f1" stroke-width="1.5" opacity="0.12"/>
+  <polygon points="256,100 378,172 378,316 256,388 134,316 134,172" fill="none" stroke="#6366f1" stroke-width="1" opacity="0.08"/>
+  
+  <!-- Glow backdrop -->
+  <ellipse cx="256" cy="256" rx="140" ry="140" fill="#6366f1" opacity="0.06" filter="url(#glow)"/>
+  
+  <!-- Lightning bolt — main icon -->
+  <path d="M 218 120 L 290 120 L 258 228 L 330 228 L 210 410 L 248 278 L 178 278 Z" 
+        fill="url(#g1)" filter="url(#glow)"/>
+  
+  <!-- Bright edge highlight on bolt -->
+  <path d="M 218 120 L 290 120 L 258 228 L 330 228 L 210 410 L 248 278 L 178 278 Z" 
+        fill="none" stroke="url(#g2)" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Code brackets -->
+  <path d="M 100 200 L 62 256 L 100 312" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <path d="M 412 200 L 450 256 L 412 312" fill="none" stroke="#6366f1" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+</svg>

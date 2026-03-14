@@ -1,6 +1,6 @@
-# DevTools.run
+# ⚡ DevForge
 
-⚡ Free online developer tools. Fast, private, no tracking.
+Free online developer tools. Fast, private, no tracking.
 
 All processing happens in your browser — no data is sent to any server.
 

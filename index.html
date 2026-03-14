@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DevTools.run - Free Online Developer Tools</title>
+<title>DevForge — Free Online Developer Tools</title>
 <meta name="description" content="Free online developer tools: JSON formatter, Base64 encoder, URL encoder, timestamp converter, UUID generator, hash generator, regex tester, JWT decoder, color converter, Markdown preview. Fast, private, no tracking.">
-<meta name="keywords" content="json formatter,base64 encode decode,url encoder,timestamp converter,uuid generator,hash generator,regex tester,jwt decoder,color converter,markdown preview,developer tools,online tools">
+<meta name="keywords" content="devforge,json formatter,base64 encode decode,url encoder,timestamp converter,uuid generator,hash generator,regex tester,jwt decoder,color converter,markdown preview,developer tools,online tools">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="canonical" href="https://diao1999.github.io/devtools-run/">
-<meta property="og:title" content="DevTools.run - Free Online Developer Tools">
-<meta property="og:description" content="JSON formatter, Base64, URL encoder, timestamp converter, UUID generator, hash generator, regex tester, JWT decoder, color converter, Markdown preview. Fast, private, free.">
+<meta property="og:title" content="DevForge — Free Online Developer Tools">
+<meta property="og:description" content="10 essential developer tools in one fast, private page. JSON formatter, Base64, UUID, Hash, JWT decoder & more. Zero tracking, 100% client-side.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://diao1999.github.io/devtools-run/">
+<meta property="og:image" content="https://diao1999.github.io/devtools-run/logo.svg">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DevTools.run - Free Online Developer Tools">
+<meta name="twitter:title" content="DevForge — Free Online Developer Tools">
 <meta name="twitter:description" content="10 essential developer tools in one page. Zero tracking, 100% client-side.">
 <meta name="theme-color" content="#6366f1">
 <style>
@@ -75,7 +77,7 @@ main{padding:1rem}
 </head>
 <body>
 <header>
-<h1>⚡ Dev<span>Tools</span>.run</h1>
+<h1><img src="favicon.svg" alt="" style="height:1.4em;vertical-align:middle;margin-right:.4rem">Dev<span>Forge</span></h1>
 <span style="color:var(--muted);font-size:.8rem">Free · Fast · Private</span>
 </header>
 <div class="mobile-nav"><select id="mobile-select" onchange="switchTool(this.value)"></select></div>
@@ -83,7 +85,7 @@ main{padding:1rem}
 <nav id="sidebar"></nav>
 <main id="main"></main>
 </div>
-<footer>DevTools.run — All processing happens in your browser. No data is sent to any server. &copy; 2026</footer>
+<footer>DevForge — All processing happens in your browser. No data is sent to any server. &copy; 2026</footer>
 
 <script>
 const tools=[
@@ -266,7 +268,7 @@ window.addEventListener('hashchange',()=>switchTool(location.hash.slice(1)));
 
 // SEO: structured data
 const ld=document.createElement('script');ld.type='application/ld+json';
-ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebApplication","name":"DevTools.run","description":"Free online developer tools","url":"https://devtools.run","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}});
+ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebApplication","name":"DevForge","description":"Free online developer tools","url":"https://diao1999.github.io/devtools-run/","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}});
 document.head.appendChild(ld);
 </script>
 </body>
