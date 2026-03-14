@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DevTools.run - Free Online Developer Tools</title>
+<meta name="description" content="Free online developer tools: JSON formatter, Base64 encoder, URL encoder, timestamp converter, UUID generator, hash generator, regex tester, JWT decoder, color converter, Markdown preview. Fast, private, no tracking.">
+<meta name="keywords" content="json formatter,base64 encode decode,url encoder,timestamp converter,uuid generator,hash generator,regex tester,jwt decoder,color converter,markdown preview,developer tools,online tools">
+<link rel="canonical" href="https://devtools.run">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e4e4e7;--muted:#9ca3af;--accent:#6366f1;--accent2:#818cf8;--green:#22c55e;--red:#ef4444;--font:'SF Mono',Monaco,Consolas,'Liberation Mono',monospace}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+a{color:var(--accent2);text-decoration:none}
+header{border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:1.3rem;font-weight:700}
+header h1 span{color:var(--accent)}
+.layout{display:flex;min-height:calc(100vh - 57px)}
+nav{width:220px;border-right:1px solid var(--border);padding:1rem 0;overflow-y:auto;flex-shrink:0}
+nav button{display:block;width:100%;text-align:left;background:none;border:none;color:var(--muted);padding:.6rem 1.2rem;cursor:pointer;font-size:.875rem;transition:all .15s}
+nav button:hover{color:var(--text);background:rgba(99,102,241,.1)}
+nav button.active{color:var(--accent2);background:rgba(99,102,241,.15);border-right:2px solid var(--accent)}
+main{flex:1;padding:2rem;max-width:900px}
+.tool{display:none}
+.tool.active{display:block}
+.tool h2{font-size:1.4rem;margin-bottom:.5rem}
+.tool p.desc{color:var(--muted);margin-bottom:1.5rem;font-size:.9rem}
+textarea,.input-field{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:.75rem;border-radius:8px;font-family:var(--font);font-size:.85rem;resize:vertical;min-height:120px;outline:none;transition:border-color .2s}
+textarea:focus,.input-field:focus{border-color:var(--accent)}
+input[type=text],input[type=number],select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:6px;font-size:.85rem;outline:none}
+input[type=text]:focus,select:focus{border-color:var(--accent)}
+.btn{background:var(--accent);color:#fff;border:none;padding:.5rem 1.2rem;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:500;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent)}
+.actions{display:flex;gap:.5rem;margin:.75rem 0;flex-wrap:wrap;align-items:center}
+.row{display:flex;gap:1rem;margin-bottom:1rem}
+.row>*{flex:1}
+label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.3rem}
+.status{font-size:.8rem;padding:.3rem .6rem;border-radius:4px;display:inline-block}
+.status.ok{background:rgba(34,197,94,.15);color:var(--green)}
+.status.err{background:rgba(239,68,68,.15);color:var(--red)}
+.output-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem;font-family:var(--font);font-size:.85rem;min-height:120px;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:400px}
+.color-preview{width:60px;height:60px;border-radius:8px;border:1px solid var(--border)}
+#md-preview{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem;min-height:200px;overflow:auto;max-height:500px}
+#md-preview h1,#md-preview h2,#md-preview h3{margin:.5em 0 .3em}
+#md-preview code{background:rgba(99,102,241,.2);padding:.15em .4em;border-radius:3px;font-family:var(--font);font-size:.85em}
+#md-preview pre{background:var(--bg);padding:.75rem;border-radius:6px;overflow-x:auto;margin:.5em 0}
+#md-preview pre code{background:none;padding:0}
+#md-preview blockquote{border-left:3px solid var(--accent);padding-left:.75rem;color:var(--muted);margin:.5em 0}
+#md-preview ul,#md-preview ol{padding-left:1.5rem;margin:.5em 0}
+#md-preview table{border-collapse:collapse;margin:.5em 0}
+#md-preview th,#md-preview td{border:1px solid var(--border);padding:.4rem .6rem}
+footer{text-align:center;padding:1rem;color:var(--muted);font-size:.75rem;border-top:1px solid var(--border)}
+@media(max-width:768px){
+nav{display:none}
+.layout{flex-direction:column}
+header{flex-direction:column;gap:.5rem}
+main{padding:1rem}
+}
+.mobile-nav{display:none}
+@media(max-width:768px){
+.mobile-nav{display:block;padding:.5rem 1rem}
+.mobile-nav select{width:100%;padding:.5rem;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:.9rem}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ Dev<span>Tools</span>.run</h1>
+<span style="color:var(--muted);font-size:.8rem">Free · Fast · Private</span>
+</header>
+<div class="mobile-nav"><select id="mobile-select" onchange="switchTool(this.value)"></select></div>
+<div class="layout">
+<nav id="sidebar"></nav>
+<main id="main"></main>
+</div>
+<footer>DevTools.run — All processing happens in your browser. No data is sent to any server. &copy; 2026</footer>
+
+<script>
+const tools=[
+{id:'json',icon:'{ }',name:'JSON Formatter',desc:'Format, minify, and validate JSON data.',html:`
+<div class="row"><div><label>Input</label><textarea id="j-in" placeholder='Paste JSON here...'></textarea></div></div>
+<div class="actions">
+<button class="btn" onclick="jsonFmt()">Format</button>
+<button class="btn btn-outline" onclick="jsonMin()">Minify</button>
+<button class="btn btn-outline" onclick="jsonValid()">Validate</button>
+<button class="btn btn-outline" onclick="copyOut('j-out')">Copy</button>
+<span id="j-status"></span>
+</div>
+<label>Output</label><div class="output-box" id="j-out"></div>`},
+
+{id:'base64',icon:'Aa',name:'Base64',desc:'Encode and decode Base64 strings.',html:`
+<label>Input</label><textarea id="b-in" placeholder="Enter text..."></textarea>
+<div class="actions">
+<button class="btn" onclick="b64('e')">Encode</button>
+<button class="btn btn-outline" onclick="b64('d')">Decode</button>
+<button class="btn btn-outline" onclick="copyOut('b-out')">Copy</button>
+</div>
+<label>Output</label><div class="output-box" id="b-out"></div>`},
+
+{id:'url',icon:'%',name:'URL Encode/Decode',desc:'Encode and decode URL components.',html:`
+<label>Input</label><textarea id="u-in" placeholder="Enter text or URL..."></textarea>
+<div class="actions">
+<button class="btn" onclick="urlEnc()">Encode</button>
+<button class="btn btn-outline" onclick="urlDec()">Decode</button>
+<button class="btn btn-outline" onclick="copyOut('u-out')">Copy</button>
+</div>
+<label>Output</label><div class="output-box" id="u-out"></div>`},
+
+{id:'timestamp',icon:'🕐',name:'Timestamp',desc:'Convert between Unix timestamps and human-readable dates.',html:`
+<div class="row">
+<div><label>Unix Timestamp (seconds)</label><input type="number" id="ts-in" placeholder="e.g. 1700000000" style="width:100%"></div>
+<div><label>Date String</label><input type="text" id="ts-date" placeholder="e.g. 2025-01-01 12:00:00" style="width:100%"></div>
+</div>
+<div class="actions">
+<button class="btn" onclick="tsNow()">Now</button>
+<button class="btn btn-outline" onclick="tsToDate()">Timestamp → Date</button>
+<button class="btn btn-outline" onclick="dateToTs()">Date → Timestamp</button>
+</div>
+<div class="output-box" id="ts-out"></div>`},
+
+{id:'uuid',icon:'#',name:'UUID Generator',desc:'Generate random UUIDs (v4).',html:`
+<div class="actions">
+<label>Count</label><input type="number" id="uuid-n" value="5" min="1" max="100" style="width:80px">
+<button class="btn" onclick="genUUID()">Generate</button>
+<button class="btn btn-outline" onclick="copyOut('uuid-out')">Copy All</button>
+</div>
+<div class="output-box" id="uuid-out"></div>`},
+
+{id:'hash',icon:'🔒',name:'Hash Generator',desc:'Generate MD5, SHA-1, SHA-256, SHA-512 hashes. Uses Web Crypto API.',html:`
+<label>Input</label><textarea id="h-in" placeholder="Enter text to hash..."></textarea>
+<div class="actions">
+<button class="btn" onclick="doHash('SHA-1')">SHA-1</button>
+<button class="btn" onclick="doHash('SHA-256')">SHA-256</button>
+<button class="btn" onclick="doHash('SHA-512')">SHA-512</button>
+<button class="btn btn-outline" onclick="copyOut('h-out')">Copy</button>
+</div>
+<div class="output-box" id="h-out"></div>`},
+
+{id:'regex',icon:'.*',name:'Regex Tester',desc:'Test regular expressions with real-time matching.',html:`
+<div class="row">
+<div style="flex:3"><label>Pattern</label><input type="text" id="rx-pat" placeholder="/pattern/flags" style="width:100%"></div>
+<div style="flex:1"><label>Flags</label><input type="text" id="rx-flags" value="g" style="width:100%"></div>
+</div>
+<label>Test String</label><textarea id="rx-in" placeholder="Enter test string..." oninput="testRegex()"></textarea>
+<div class="actions"><span id="rx-status"></span></div>
+<label>Matches</label><div class="output-box" id="rx-out"></div>`},
+
+{id:'jwt',icon:'🎫',name:'JWT Decoder',desc:'Decode and inspect JSON Web Tokens.',html:`
+<label>Token</label><textarea id="jwt-in" placeholder="Paste JWT token here (eyJ...)"></textarea>
+<div class="actions">
+<button class="btn" onclick="decJWT()">Decode</button>
+</div>
+<div class="row"><div><label>Header</label><div class="output-box" id="jwt-h"></div></div><div><label>Payload</label><div class="output-box" id="jwt-p"></div></div></div>
+<label>Signature</label><div class="output-box" id="jwt-s" style="min-height:40px"></div>`},
+
+{id:'color',icon:'🎨',name:'Color Converter',desc:'Convert between HEX, RGB, and HSL color formats.',html:`
+<div class="row">
+<div><label>HEX</label><input type="text" id="c-hex" placeholder="#6366f1" style="width:100%" oninput="colorFromHex()"></div>
+<div><label>RGB</label><input type="text" id="c-rgb" placeholder="99, 102, 241" style="width:100%" oninput="colorFromRGB()"></div>
+<div><label>HSL</label><input type="text" id="c-hsl" placeholder="239, 84%, 67%" style="width:100%" oninput="colorFromHSL()"></div>
+<div><label>Preview</label><div class="color-preview" id="c-preview"></div></div>
+</div>
+<div class="actions"><button class="btn" onclick="randomColor()">Random Color</button></div>`},
+
+{id:'markdown',icon:'M↓',name:'Markdown Preview',desc:'Preview Markdown with live rendering.',html:`
+<label>Markdown</label><textarea id="md-in" placeholder="# Hello World" oninput="renderMD()" style="min-height:200px"></textarea>
+<label>Preview</label><div id="md-preview"></div>`}
+];
+
+// Init
+const nav=document.getElementById('sidebar'),main=document.getElementById('main'),msel=document.getElementById('mobile-select');
+tools.forEach((t,i)=>{
+const btn=document.createElement('button');
+btn.textContent=t.icon+' '+t.name;
+btn.onclick=()=>switchTool(t.id);
+btn.id='nav-'+t.id;
+nav.appendChild(btn);
+const opt=document.createElement('option');
+opt.value=t.id;opt.textContent=t.icon+' '+t.name;
+msel.appendChild(opt);
+const div=document.createElement('div');
+div.className='tool';div.id='tool-'+t.id;
+div.innerHTML='<h2>'+t.icon+' '+t.name+'</h2><p class="desc">'+t.desc+'</p>'+t.html;
+main.appendChild(div);
+});
+
+function switchTool(id){
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+document.querySelectorAll('.tool').forEach(t=>t.classList.remove('active'));
+document.getElementById('nav-'+id)?.classList.add('active');
+document.getElementById('tool-'+id)?.classList.add('active');
+msel.value=id;
+location.hash=id;
+}
+switchTool(location.hash?.slice(1)||'json');
+
+function copyOut(id){navigator.clipboard?.writeText(document.getElementById(id).textContent)}
+
+// JSON
+function jsonFmt(){try{const o=JSON.parse(document.getElementById('j-in').value);document.getElementById('j-out').textContent=JSON.stringify(o,null,2);document.getElementById('j-status').innerHTML='<span class="status ok">✓ Valid JSON</span>'}catch(e){document.getElementById('j-status').innerHTML='<span class="status err">✗ '+e.message+'</span>'}}
+function jsonMin(){try{const o=JSON.parse(document.getElementById('j-in').value);document.getElementById('j-out').textContent=JSON.stringify(o);document.getElementById('j-status').innerHTML='<span class="status ok">✓ Minified</span>'}catch(e){document.getElementById('j-status').innerHTML='<span class="status err">✗ '+e.message+'</span>'}}
+function jsonValid(){try{JSON.parse(document.getElementById('j-in').value);document.getElementById('j-status').innerHTML='<span class="status ok">✓ Valid JSON</span>'}catch(e){document.getElementById('j-status').innerHTML='<span class="status err">✗ '+e.message+'</span>'}}
+
+// Base64
+function b64(m){const i=document.getElementById('b-in').value;try{document.getElementById('b-out').textContent=m==='e'?btoa(unescape(encodeURIComponent(i))):decodeURIComponent(escape(atob(i)))}catch(e){document.getElementById('b-out').textContent='Error: '+e.message}}
+
+// URL
+function urlEnc(){document.getElementById('u-out').textContent=encodeURIComponent(document.getElementById('u-in').value)}
+function urlDec(){try{document.getElementById('u-out').textContent=decodeURIComponent(document.getElementById('u-in').value)}catch(e){document.getElementById('u-out').textContent='Error: '+e.message}}
+
+// Timestamp
+function tsNow(){const n=Math.floor(Date.now()/1000);document.getElementById('ts-in').value=n;tsToDate()}
+function tsToDate(){const ts=parseInt(document.getElementById('ts-in').value);if(isNaN(ts))return;const d=new Date(ts*1000);document.getElementById('ts-out').textContent='UTC:   '+d.toUTCString()+'\nLocal: '+d.toString()+'\nISO:   '+d.toISOString()+'\nUnix:  '+ts+' s / '+(ts*1000)+' ms'}
+function dateToTs(){const s=document.getElementById('ts-date').value;const d=new Date(s);if(isNaN(d))return document.getElementById('ts-out').textContent='Invalid date';const ts=Math.floor(d.getTime()/1000);document.getElementById('ts-in').value=ts;document.getElementById('ts-out').textContent='Unix:  '+ts+' s / '+(ts*1000)+' ms\nUTC:   '+d.toUTCString()+'\nISO:   '+d.toISOString()}
+
+// UUID
+function genUUID(){const n=parseInt(document.getElementById('uuid-n').value)||5;let out=[];for(let i=0;i<n;i++){out.push(crypto.randomUUID())}document.getElementById('uuid-out').textContent=out.join('\n')}
+
+// Hash
+async function doHash(algo){const text=document.getElementById('h-in').value;const buf=new TextEncoder().encode(text);const hash=await crypto.subtle.digest(algo,buf);const hex=Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');document.getElementById('h-out').textContent=algo+': '+hex}
+
+// Regex
+function testRegex(){const pat=document.getElementById('rx-pat').value;const flags=document.getElementById('rx-flags').value;const str=document.getElementById('rx-in').value;if(!pat){document.getElementById('rx-out').textContent='';document.getElementById('rx-status').innerHTML='';return}
+try{const rx=new RegExp(pat,flags);const matches=[...str.matchAll(rx)];document.getElementById('rx-status').innerHTML='<span class="status ok">'+matches.length+' match(es)</span>';document.getElementById('rx-out').textContent=matches.map((m,i)=>'Match '+(i+1)+': "'+m[0]+'" at index '+m.index+(m.length>1?'\n  Groups: '+m.slice(1).join(', '):'')).join('\n')||'No matches'}catch(e){document.getElementById('rx-status').innerHTML='<span class="status err">'+e.message+'</span>'}}
+
+// JWT
+function decJWT(){const token=document.getElementById('jwt-in').value.trim();const parts=token.split('.');if(parts.length!==3){document.getElementById('jwt-h').textContent='Invalid JWT: expected 3 parts';return}
+try{const h=JSON.parse(atob(parts[0].replace(/-/g,'+').replace(/_/g,'/')));const p=JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));if(p.exp)p._exp_human=new Date(p.exp*1000).toISOString();if(p.iat)p._iat_human=new Date(p.iat*1000).toISOString();document.getElementById('jwt-h').textContent=JSON.stringify(h,null,2);document.getElementById('jwt-p').textContent=JSON.stringify(p,null,2);document.getElementById('jwt-s').textContent=parts[2]}catch(e){document.getElementById('jwt-h').textContent='Decode error: '+e.message}}
+
+// Color
+function colorFromHex(){const hex=document.getElementById('c-hex').value.replace('#','');if(hex.length!==6&&hex.length!==3)return;const r=parseInt(hex.length===3?hex[0]+hex[0]:hex.slice(0,2),16);const g=parseInt(hex.length===3?hex[1]+hex[1]:hex.slice(2,4),16);const b=parseInt(hex.length===3?hex[2]+hex[2]:hex.slice(4,6),16);if([r,g,b].some(isNaN))return;document.getElementById('c-rgb').value=r+', '+g+', '+b;const hsl=rgbToHsl(r,g,b);document.getElementById('c-hsl').value=hsl;document.getElementById('c-preview').style.background='#'+hex}
+function colorFromRGB(){const parts=document.getElementById('c-rgb').value.split(',').map(s=>parseInt(s.trim()));if(parts.length!==3||parts.some(isNaN))return;const[r,g,b]=parts;document.getElementById('c-hex').value='#'+[r,g,b].map(v=>v.toString(16).padStart(2,'0')).join('');document.getElementById('c-hsl').value=rgbToHsl(r,g,b);document.getElementById('c-preview').style.background='rgb('+r+','+g+','+b+')'}
+function colorFromHSL(){const parts=document.getElementById('c-hsl').value.replace(/%/g,'').split(',').map(s=>parseFloat(s.trim()));if(parts.length!==3||parts.some(isNaN))return;const[h,s,l]=parts;const rgb=hslToRgb(h,s/100,l/100);document.getElementById('c-rgb').value=rgb.join(', ');document.getElementById('c-hex').value='#'+rgb.map(v=>v.toString(16).padStart(2,'0')).join('');document.getElementById('c-preview').style.background='hsl('+h+','+s+'%,'+l+'%)'}
+function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;if(max===min){h=s=0}else{const d=max-min;s=l>.5?d/(2-max-min):d/(max+min);switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break}}return Math.round(h*360)+', '+Math.round(s*100)+'%, '+Math.round(l*100)+'%'}
+function hslToRgb(h,s,l){h/=360;let r,g,b;if(s===0){r=g=b=l}else{const hue2rgb=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p};const q=l<.5?l*(1+s):l+s-l*s;const p=2*l-q;r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3)}return[Math.round(r*255),Math.round(g*255),Math.round(b*255)]}
+function randomColor(){const h=Math.floor(Math.random()*360),s=50+Math.floor(Math.random()*40),l=40+Math.floor(Math.random()*30);document.getElementById('c-hsl').value=h+', '+s+'%, '+l+'%';colorFromHSL()}
+
+// Markdown (simple renderer)
+function renderMD(){const md=document.getElementById('md-in').value;let html=md
+.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+.replace(/^### (.+)$/gm,'<h3>$1</h3>')
+.replace(/^## (.+)$/gm,'<h2>$1</h2>')
+.replace(/^# (.+)$/gm,'<h1>$1</h1>')
+.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+.replace(/\*(.+?)\*/g,'<em>$1</em>')
+.replace(/`([^`]+)`/g,'<code>$1</code>')
+.replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
+.replace(/^- (.+)$/gm,'<li>$1</li>')
+.replace(/(<li>.*<\/li>)/s,function(m){return '<ul>'+m+'</ul>'})
+.replace(/\n{2,}/g,'<br><br>')
+.replace(/\n/g,'<br>');
+document.getElementById('md-preview').innerHTML=html}
+
+// Handle hash navigation
+window.addEventListener('hashchange',()=>switchTool(location.hash.slice(1)));
+
+// SEO: structured data
+const ld=document.createElement('script');ld.type='application/ld+json';
+ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"WebApplication","name":"DevTools.run","description":"Free online developer tools","url":"https://devtools.run","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}});
+document.head.appendChild(ld);
+</script>
+</body>
+</html>
